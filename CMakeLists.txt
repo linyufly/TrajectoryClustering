@@ -18,7 +18,13 @@ add_executable(PCLTest pcl_test.cc)
 target_link_libraries(PCLTest ${VTK_LIBRARIES})
 target_link_libraries(PCLTest ${PCL_LIBRARIES})
 
-add_executable(MathTest math_test.cc math.cc)
+add_executable(MathTest math_test.cc
+                        math.cc)
 target_link_libraries(MathTest ${VTK_LIBRARIES})
 target_link_libraries(MathTest ${PCL_LIBRARIES})
+
+add_executable(TrajectorySimilarityTest trajectory_similarity_test.cc
+                                        math.cc)
+target_link_libraries(TrajectorySimilarityTest ${VTK_LIBRARIES})
+target_link_libraries(TrajectorySimilarityTest ${PCL_LIBRARIES})
 

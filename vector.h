@@ -41,6 +41,10 @@ class Vector {
     return coordinates_[dimension];
   }
 
+  void set_component(int dimension, const T &value) {
+    coordinates_[dimension] = value;
+  }
+
   T norm() const {
     T result = T(0);
 
