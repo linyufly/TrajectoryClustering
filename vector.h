@@ -1,4 +1,5 @@
 // Author: Mingcheng Chen (linyufly@gmail.com)
+// Test GitHub
 
 #ifndef VECTOR_H_
 #define VECTOR_H_
