@@ -16,7 +16,8 @@ void kdtree_test() {
   printf("kdtree_test {\n");
   srand(time(NULL));
 
-  pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
+  pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(
+      new pcl::PointCloud<pcl::PointXYZ>);
 
   // Generate pointcloud data
   cloud->width = 1000;
@@ -29,9 +30,10 @@ void kdtree_test() {
     cloud->points[i].z = 1024.0f * rand () / (RAND_MAX + 1.0f);
   }
 
-  pcl::KdTreeFLANN<pcl::PointXYZ> kdtree;
+  pcl::KdTreeFLANN<pcl::PointXYZ>::Ptr kdtree_ptr(
+      new pcl::KdTreeFLANN<pcl::PointXYZ>);
 
-  kdtree.setInputCloud (cloud);
+  kdtree_ptr->setInputCloud(cloud);
 
   pcl::PointXYZ searchPoint;
 
@@ -49,7 +51,7 @@ void kdtree_test() {
   printf("K nearest neighbor search at (%lf %lf %lf) with K=%d\n",
          searchPoint.x, searchPoint.y, searchPoint.z, K);
 
-  if (kdtree.nearestKSearch(
+  if (kdtree_ptr->nearestKSearch(
       searchPoint, K, pointIdxNKNSearch, pointNKNSquaredDistance) > 0) {
     for (size_t i = 0; i < pointIdxNKNSearch.size (); ++i) {
       printf("    %lf %lf %lf (squared distance: %lf)\n",
@@ -70,7 +72,7 @@ void kdtree_test() {
   printf("Neighbors within radius search at (%lf %lf %lf) with radius=%lf\n",
          searchPoint.x, searchPoint.y, searchPoint.z, radius);
 
-  if (kdtree.radiusSearch(
+  if (kdtree_ptr->radiusSearch(
       searchPoint, radius, pointIdxRadiusSearch,
       pointRadiusSquaredDistance) > 0) {
     for (size_t i = 0; i < pointIdxRadiusSearch.size (); ++i) {

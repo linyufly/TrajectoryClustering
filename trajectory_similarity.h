@@ -9,6 +9,9 @@
 
 #include <vector>
 
+#include <pcl/point_cloud.h>
+#include <pcl/kdtree/kdtree_flann.h>
+
 class TrajectorySimilarity {
  public:
   template<int D>
@@ -43,6 +46,31 @@ class TrajectorySimilarity {
     }
 
     return direction.scale_down(direction.norm());
+  }
+
+  // direction_1 and direction_2 should have unit length.
+  template<int D>
+  static double point_similarity(const Vector<double, D> &direction_1,
+                                 const Vector<double, D> &direction_2,
+                                 double distance, double standard_deviation) {
+    return direction_1.dot(direction_2)
+           * Math::gaussian(distance, 1.0, 0.0, standard_deviation);
+  }
+
+  // directional_similarity(a, b) = how well a is fit in the field of b.
+  template<int D>
+  static void calculate_directional_similarities(
+      const std::vector<std::vector<Vector<double, D> > > &trajectories,
+      std::vector<std::vector<double> > *directional_similarity) {
+    int num_trajectories = static_cast<int>(trajectories.size());
+
+    directional_similarity->resize(num_trajectories);
+    for (int trajectory = 0; trajectory < num_trajectories; trajectory++) {
+      (*directional_similarity)[trajectory].resize(num_trajectories);
+    }
+
+    for (int curr_traj = 0; curr_traj < num_trajectories; curr_traj++) {
+    }
   }
 };
 
