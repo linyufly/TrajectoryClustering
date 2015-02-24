@@ -13,6 +13,14 @@ class TrajectorySimilarity {
  public:
   template<int D>
   static Vector<double, D> get_direction(
+      const Vector<double, D> &first_location,
+      const Vector<double, D> &second_location) {
+    Vector<double, D> direction = second_location.subtract(first_location);
+    return direction.scale_down(direction.norm());
+  }
+
+  template<int D>
+  static Vector<double, D> get_direction(
       const Vector<double, D> &last_location,
       const Vector<double, D> &curr_location,
       const Vector<double, D> &next_location) {
