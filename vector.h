@@ -5,6 +5,8 @@
 
 #include <cmath>
 
+#include <algorithm>
+
 namespace {
 
 template<typename T>
@@ -17,6 +19,28 @@ T square(T value) {
 template<typename T, int D>
 class Vector {
  public:
+  Vector() {
+  }
+
+  Vector(T x, T y) {
+    coordinates_[0] = x;
+    coordinates_[1] = y;
+  }
+
+  Vector(T x, T y, T z) {
+    coordinates_[0] = x;
+    coordinates_[1] = y;
+    coordinates_[2] = z;
+  }
+
+  Vector(T *coordinates) {
+    std::copy(coordinates, coordinates + D, coordinates_);
+  }
+
+  T get_component(int dimension) const {
+    return coordinates_[dimension];
+  }
+
   T norm() const {
     T result = T(0);
 
@@ -27,7 +51,7 @@ class Vector {
     return static_cast<T>(sqrt(static_cast<double>(result)));
   }
 
-  T dot(const Vector<T, D> &other) {
+  T dot(const Vector &other) const {
     T result = T(0);
 
     for (int dimension = 0; dimension < D; dimension++) {
@@ -37,8 +61,8 @@ class Vector {
     return result;
   }
 
-  Vector<T, D> add(const Vector<T, D> &other) {
-    Vector<T, D> result;
+  Vector add(const Vector &other) const {
+    Vector result;
 
     for (int dimension = 0; dimension < D; dimension++) {
       result.coordinates_[dimension] =
@@ -48,8 +72,8 @@ class Vector {
     return result;
   }
 
-  Vector<T, D> subtract(const Vector<T, D> &other) {
-    Vector<T, D> result;
+  Vector subtract(const Vector &other) const {
+    Vector result;
 
     for (int dimension = 0; dimension < D; dimension++) {
       result.coordinates_[dimension] =
@@ -59,8 +83,8 @@ class Vector {
     return result;
   }
 
-  Vector<T, D> scale_up(double lambda) {
-    Vector<T, D> result;
+  Vector scale_up(double lambda) const {
+    Vector result;
 
     for (int dimension = 0; dimension < D; dimension++) {
       result.coordinates_[dimension] = coordinates_[dimension] * lambda;
@@ -69,8 +93,8 @@ class Vector {
     return result;
   }
 
-  Vector<T, D> scale_down(double lambda) {
-    Vector<T, D> result;
+  Vector scale_down(double lambda) const {
+    Vector result;
 
     for (int dimension = 0; dimension < D; dimension++) {
       result.coordinates_[dimension] = coordinates_[dimension] / lambda;
